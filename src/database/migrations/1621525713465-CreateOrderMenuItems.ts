@@ -6,7 +6,7 @@ export class CreateOrderMenuItems1621525713465 implements MigrationInterface {
 
         await queryRunner.createTable(
             new Table({
-                name: "ordermenuitems",
+                name: "order_menu_item",
                 columns: [
                     {
                         name: "id",
@@ -79,7 +79,7 @@ export class CreateOrderMenuItems1621525713465 implements MigrationInterface {
 
     public async down(queryRunner: QueryRunner): Promise<void> {
 
-        await queryRunner.dropTable("ordermenuitems");
+        await queryRunner.dropTable("order_menu_item");
 
     }
 

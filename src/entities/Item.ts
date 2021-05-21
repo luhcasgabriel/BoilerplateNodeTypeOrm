@@ -6,12 +6,14 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     PrimaryColumn,
+    JoinTable,
+    ManyToMany,
     OneToMany,
 
 } from "typeorm";
 
 import { v4 as uuid } from "uuid";
-import { MenuItem } from "./MenuItem";
+import { Menu } from "./Menu";
 import { OrderMenuItem } from "./OrderMenuitem";
 
 @Entity("items")
@@ -31,8 +33,9 @@ class Item{
     @CreateDateColumn()
     created_at: Date;
 
-    @OneToMany(() => MenuItem, menuItem => menuItem.menu)
-    menuitem: MenuItem[]
+    @ManyToMany(() => Menu)
+    @JoinTable()
+    menus: Menu[];  
 
     @OneToMany(() => OrderMenuItem, orderMenuitem => orderMenuitem.item)
     ordermenuitem: OrderMenuItem[]

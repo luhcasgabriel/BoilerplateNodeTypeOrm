@@ -21,7 +21,7 @@ routes.get("/menu" , menuController.Find);
 routes.post("/orders" , ordersController.Create);
 
 
-routes.get("/menu/teste" , menuController.findList);
+routes.get("/menu/teste" , menuController.list);
 
 
 

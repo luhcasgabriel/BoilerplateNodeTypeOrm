@@ -5,8 +5,6 @@ import { Order } from "../entities/Order";
 import { OrdersRepository } from "../repositories/OrdersRepository"
 import { OrderMenuitemsRepository } from "../repositories/OrderMenuitemsRepository"
 import { OrderMenuItem } from "../entities/OrderMenuitem";
-import { MenuItem } from "../entities/MenuItem";
-
 
 interface IMenuCreate {
     client_name?: string;

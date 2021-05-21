@@ -1,18 +1,13 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class CreateMenuItems1621311174301 implements MigrationInterface {
+export class CreateMenuItems1621311174302 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
 
         await queryRunner.createTable(
             new Table({
-                name: "menuitems",
+                name: "menus_items_items",
                 columns: [
-                    {
-                        name: "id",
-                        type: "uuid",
-                        isPrimary: true
-                    },
                     {
                         name: "item_id",
                         type: "uuid",
@@ -50,7 +45,7 @@ export class CreateMenuItems1621311174301 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("menuitems");
+        await queryRunner.dropTable("menus_items_items");
 
     }
 

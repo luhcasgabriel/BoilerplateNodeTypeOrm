@@ -34,36 +34,38 @@ class OrdersController {
         }
     }
     async Find(request: Request, response: Response): Promise<Response> {
+
+        return response.json({});
         
-        const  { id }  = request.params;
-        const menuService = new MenusService();
+        // const  { id }  = request.params;
+        // const menuService = new MenusService();
 
-        try {
+        // try {
 
-            if(id) {
-                const itemMenu = await menuService.findItemsById(id);
+        //     if(id) {
+        //         const itemMenu = await menuService.findItemsById(id);
             
-                if(!itemMenu) {
-                    return response.status(204).json({
-                        message: "menu item not found"
-                    });
-                }
-                else {
-                    return response.json(itemMenu);
-                }
-            }
-            else {
+        //         if(!itemMenu) {
+        //             return response.status(204).json({
+        //                 message: "menu item not found"
+        //             });
+        //         }
+        //         else {
+        //             return response.json(itemMenu);
+        //         }
+        //     }
+        //     else {
 
-                const menuList = await menuService.findItemsList();
+        //         const menuList = await menuService.findItemsList();
 
-                return response.json(menuList);
-            }
+        //         return response.json(menuList);
+        //     }
 
-        } catch (error) {
-            return response.status(400).json({
-                message: error.message
-            });
-        }
+        // } catch (error) {
+        //     return response.status(400).json({
+        //         message: error.message
+        //     });
+        // }
     }
 
     async findList(request: Request, response: Response): Promise<Response> {

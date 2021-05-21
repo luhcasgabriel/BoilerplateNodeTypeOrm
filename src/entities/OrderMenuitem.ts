@@ -14,7 +14,6 @@ import {
 import { v4 as uuid } from "uuid";
 import { Item } from "./Item";
 import { Menu } from "./Menu";
-import { MenuItem } from "./MenuItem";
 import { Order } from "./Order";
 
 @Entity("ordermenuitems")

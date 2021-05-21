@@ -1,7 +1,6 @@
 
 import { Request, Response } from "express" 
 import { MenusService } from "../service/MenusService"
-import { MenuItem } from "../entities/MenuItem";
 import { Item } from "../entities/Item";
 
 interface IMenuItems {
@@ -15,55 +14,65 @@ class MenusController {
 
     private menuList : [IMenuItems];
 
+    async list (request: Request, response: Response): Promise<Response> {
+        const menuService = new MenusService();
+        const list = await menuService.list();
+        return response.json(list)
+    }
+
     async Create(request: Request, response: Response): Promise<Response> {
 
-        const { name, items } = request.body;
-        const menuService = new MenusService();
-        const menuItem = new MenuItem();
+        return response.json({})
 
-        try {
+        // const { name, items } = request.body;
+        // const menuService = new MenusService();
+        // const menuItem = new MenuItem();
 
-            const lunch = await menuService.Create({ name, items});
+        // try {
+
+        //     const lunch = await menuService.Create({ name, items});
         
-            return response.json(lunch);
+        //     return response.json(lunch);
             
-        } catch (error) {
-            return response.status(400).json({
-                message: error.message
-            });
-        }
+        // } catch (error) {
+        //     return response.status(400).json({
+        //         message: error.message
+        //     });
+        // }
     }
     async Find(request: Request, response: Response): Promise<Response> {
+
+        return response.json({});
         
-        const  { id }  = request.params;
-        const menuService = new MenusService();
+        // const  { id }  = request.params;
+        // const menuService = new MenusService();
 
-        try {
+        // try {
 
-            if(id) {
-                const itemMenu = await menuService.findItemsById(id);
+        //     if(id) {
+        //         const itemMenu = await menuService.findItemsById(id);
             
-                if(!itemMenu) {
-                    return response.status(204).json({
-                        message: "menu item not found"
-                    });
-                }
-                else {
-                    return response.json(itemMenu);
-                }
-            }
-            else {
+        //         if(!itemMenu) {
+        //             return response.status(204).json({
+        //                 message: "menu item not found"
+        //             });
+        //         }
+        //         else {
+        //             return response.json(itemMenu);
+        //         }
+        //     }
+        //     else {
 
-                const menuList = await menuService.findItemsList();
+        //         const menuList = await menuService.findItemsList();
 
-                return response.json(menuList);
-            }
+        //         return response.json(menuList);
+        //     }
 
-        } catch (error) {
-            return response.status(400).json({
-                message: error.message
-            });
-        }
+        // } catch (error) {
+        //     return response.status(400).json({
+        //         message: error.message
+        //     });
+        // }
     }
 
     async findList(request: Request, response: Response): Promise<Response> {

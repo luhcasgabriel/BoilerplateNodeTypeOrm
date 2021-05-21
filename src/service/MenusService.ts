@@ -1,8 +1,7 @@
 import { json } from "express";
-import { Connection, getCustomRepository, Repository } from "typeorm" /* yarn add typeorm / @types/typeorm -D*/
+import { createQueryBuilder, Connection, getCustomRepository, Repository } from "typeorm" /* yarn add typeorm / @types/typeorm -D*/
 import { Item } from "../entities/Item";
 import { Menu } from "../entities/Menu";
-import { MenuItem } from "../entities/MenuItem";
 import { MenuItemsRepository } from "../repositories/MenuItemsRepository";
 import { MenusRepository } from "../repositories/MenusRepository"
 
@@ -18,11 +17,9 @@ interface IMenuCreate2 {
 class MenusService {
 
     private menuRepository: Repository<Menu>;
-    private menuItemRepository: Repository<MenuItem>;
 
     constructor() {
         this.menuRepository = getCustomRepository(MenusRepository);
-        this.menuItemRepository = getCustomRepository(MenuItemsRepository);
     }
 
     
@@ -41,15 +38,15 @@ class MenusService {
         menu.name = name;
         const lunch = await this.menuRepository.manager.save(menu);
 
-        items.forEach((item) => {
-            const menuItem = new MenuItem();
+        // items.forEach((item) => {
+        //     const menuItem = new MenuItem();
 
-            menuItem.item_id = item.id;
-            menuItem.menu = menu;
-            const resultMenuItem = this.menuRepository.manager.save(menuItem);
+        //     menuItem.item_id = item.id;
+        //     menuItem.menu = menu;
+        //     const resultMenuItem = this.menuRepository.manager.save(menuItem);
 
-            listMenuItens.push(menuItem)
-        });
+        //     listMenuItens.push(menuItem)
+        // });
 
         return <JSON><unknown>{
             "name": menu.name,
@@ -59,26 +56,29 @@ class MenusService {
 
     }
 
+    async list() {
+        const menus = await this.menuRepository.find({ relations: ['items'] })
+        return menus;
+    }
+
     /* TESTE */
     async findList() {
-
-        const menulist = await this.menuRepository.find({ relations: ["menuitem"]});
-
-        return menulist;
+        // const menulist = await this.menuRepository.
+        // return menulist;
     }
 
     async findItemsList() {
 
-        const lunchListItems = await this.menuItemRepository.find({ relations: ["menu", "item"] });
+        // const lunchListItems = await this.menuItemRepository.find({ relations: ["menu", "item"] });
 
-        return lunchListItems;
+        // return lunchListItems;
     }
 
     async findItemsById(id: string) {
 
-        const lunchListItems = await this.menuItemRepository.findOne({menu_id: id}, { relations: ["menu", "item"] });
+        // const lunchListItems = await this.menuItemRepository.findOne({menu_id: id}, { relations: ["menu", "item"] });
 
-        return lunchListItems;
+        // return lunchListItems;
     }
 
 }
