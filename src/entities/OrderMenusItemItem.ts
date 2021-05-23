@@ -7,6 +7,7 @@ import {
     PrimaryColumn,
     ManyToOne,
     JoinColumn,
+    JoinTable,
 
 } from "typeorm";
 
@@ -16,7 +17,7 @@ import { Menu } from "./Menu";
 import { Order } from "./Order";
 
 @Entity("order_menus_item_items")
-class OrderMenuItemItem{
+class OrderMenusItemItem{
 
     @PrimaryColumn()
     id: string;
@@ -24,10 +25,10 @@ class OrderMenuItemItem{
     @Column()
     quantity: number;
 
-    @ManyToOne(() => Item, item => item.ordermenuitem)
+    @ManyToOne(() => Item, item => item.ordermenuitem, {eager: true})
     item: Item;
 
-    @ManyToOne(() => Menu, menuitem => menuitem.ordermenuitem)
+    @ManyToOne(() => Menu, menuitem => menuitem.ordermenuitem, {eager: true})
     menu: Menu;
 
     // @JoinColumn({name: "order_id"})
@@ -48,4 +49,4 @@ class OrderMenuItemItem{
 
 }
 
-export { OrderMenuItemItem }
+export { OrderMenusItemItem }

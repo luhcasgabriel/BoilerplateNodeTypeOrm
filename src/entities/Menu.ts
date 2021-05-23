@@ -14,7 +14,7 @@ import {
 
 import { v4 as uuid } from "uuid";
 import { Item } from './Item'
-import { OrderMenuItemItem } from "./OrderMenuItemItem";
+import { OrderMenusItemItem } from "./OrderMenusItemItem";
 
 @Entity("menus")
 class Menu{
@@ -28,12 +28,12 @@ class Menu{
     @CreateDateColumn()
     created_at: Date;
 
-    @ManyToMany(() => Item, {eager: true})
+    @ManyToMany(() => Item)
     @JoinTable()
     items: Item[];    
 
-    @OneToMany(() => OrderMenuItemItem, ordermenuitem => ordermenuitem.menu)
-    ordermenuitem: OrderMenuItemItem[]
+    @OneToMany(() => OrderMenusItemItem, ordermenuitem => ordermenuitem.menu)
+    ordermenuitem: OrderMenusItemItem[]
 
     @UpdateDateColumn()
     updated_at: Date;

@@ -20,6 +20,8 @@ routes.get("/menu/:id", menuController.Find);
 
 /* orders */
 routes.post("/orders" , ordersController.Create);
+routes.get("/orders" , ordersController.List);
+routes.get("/orders/:id", ordersController.Find);
 
 
 export { routes };

@@ -7,11 +7,12 @@ import {
     PrimaryColumn,
     OneToMany,
     JoinTable,
+    JoinColumn,
 
 } from "typeorm";
 
 import { v4 as uuid } from "uuid";
-import { OrderMenuItemItem } from "./OrderMenuItemItem";
+import { OrderMenusItemItem } from "./OrderMenusItemItem";
 
 @Entity("orders")
 class Order{
@@ -31,9 +32,8 @@ class Order{
     @Column()
     order_number: number;
 
-    @OneToMany(() => OrderMenuItemItem, ordermenuitem => ordermenuitem.order, {eager: true})
-    @JoinTable()
-    ordermenuitem: OrderMenuItemItem[]
+    @OneToMany(() => OrderMenusItemItem, ordermenuitem => ordermenuitem.order, {eager: true})
+    ordermenuitem: OrderMenusItemItem[]
 
     @CreateDateColumn()
     created_at: Date;

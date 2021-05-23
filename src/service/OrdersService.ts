@@ -3,7 +3,7 @@ import { getCustomRepository, Repository } from "typeorm"
 import { Item } from "../entities/Item";
 import { Menu } from "../entities/Menu";
 import { Order } from "../entities/Order";
-import { OrderMenuItemItem } from "../entities/OrderMenuItemItem";
+import { OrderMenusItemItem } from "../entities/OrderMenusItemItem";
 import { OrdersRepository } from "../repositories/OrdersRepository"
 
 interface IOrdersCreate {
@@ -31,6 +31,7 @@ class OrdersService {
         console.log(order_number)
         console.log(price)
         console.log(discount)
+        console.log(menu)
         console.log("-----------------------")
         console.log("-----------------------")
 
@@ -40,24 +41,26 @@ class OrdersService {
         order.discount = discount;
         order.price = price;
         order.ordermenuitem =  new Array();
-        const list = [OrderMenuItemItem]
+        const list = [OrderMenusItemItem]
 
         menu.forEach((menuItem) => {
             
             menuItem.items.forEach((itemMenu) => {
 
                 const menu = new Menu();
-                const orderMenuitemItems = new OrderMenuItemItem();
+                const item = new Item();
+                const orderMenuitemItems = new OrderMenusItemItem();
 
                 menu.id = menuItem.id;
                 orderMenuitemItems.menu = menu;
-                orderMenuitemItems.item = itemMenu;
+                item.id = itemMenu.id;
+                orderMenuitemItems.item = item;
                 orderMenuitemItems.quantity = itemMenu.quantity;
                 order.ordermenuitem.push(orderMenuitemItems);
             });
 
         });
-
+ 
         console.log("-----------------------")
         console.log("order antes save")
         console.log(order)
@@ -83,20 +86,20 @@ class OrdersService {
 
     }
 
-    /*
+    
     async list() {
-        const menus = await this.menuRepository.find({ relations: ['items'] })
+        const orders = await this.ordersRepository.find();
 
-        return menus;
+        return orders;
     }
 
     async findItemsById(id: string) {
 
-        const lunchListItems = await this.menuRepository.findOne({ id });
+        const order = await this.ordersRepository.findOne({ id });
 
-        return lunchListItems;
+        return order;
     }
-*/
+
 }
 
 export { OrdersService } 

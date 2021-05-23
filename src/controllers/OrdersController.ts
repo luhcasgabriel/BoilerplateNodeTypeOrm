@@ -1,7 +1,7 @@
 
 import { Request, Response } from "express" 
 import { OrdersService } from "../service/OrdersService"
-import { OrderMenuItemItem } from "../entities/OrderMenuItemItem";
+import { OrderMenusItemItem } from "../entities/OrderMenusItemItem";
 import { Menu } from "../entities/Menu";
 
 interface IOrdersCreate {
@@ -34,22 +34,22 @@ class OrdersController {
             });
         }
     }
-    /*async Find(request: Request, response: Response): Promise<Response> {
+    async Find(request: Request, response: Response): Promise<Response> {
 
         const  { id }  = request.params;
-        const menuService = new MenusService();
+        const orderService = new OrdersService();
 
         try {
 
-            const itemMenu = await menuService.findItemsById(id);
+            const order = await orderService.findItemsById(id);
             
-            if(!itemMenu) {
+            if(!order) {
                 return response.status(204).json({
                     message: "menu item not found"
                 });
             }
             else {
-                return response.json(itemMenu);
+                return response.json(order);
             }
             
         } catch (error) {
@@ -61,20 +61,20 @@ class OrdersController {
 
     async List(request: Request, response: Response): Promise<Response> {
 
-        const menuService = new MenusService();
+        const orderService = new OrdersService();
 
         try {
  
-            const menuList = await menuService.list();
+            const orders = await orderService.list();
 
-            return response.json(menuList);
+            return response.json(orders);
             
         } catch (error) {
             return response.status(400).json({
                 message: error.message
             });
         }
-    }*/
+    }
 }
 
 export { OrdersController } 
