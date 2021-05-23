@@ -1,10 +1,8 @@
 import { Repository, EntityRepository } from "typeorm";
-import { OrderMenuItem } from "../entities/OrderMenuitem";
+import { OrderMenuItemItem } from "../entities/OrderMenuItemItem";
 
-@EntityRepository(OrderMenuItem)
-class OrderMenuitemsRepository extends Repository<OrderMenuItem> {
-
-
+@EntityRepository(OrderMenuItemItem)
+class OrderMenuitemsRepository extends Repository<OrderMenuItemItem> {
 
 }
 

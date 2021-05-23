@@ -1,40 +1,42 @@
 
-
 import {
     Entity,
     Column,
     CreateDateColumn,
     UpdateDateColumn,
     PrimaryColumn,
-    JoinTable,
-    ManyToMany,
     OneToMany,
+    JoinTable,
 
 } from "typeorm";
 
 import { v4 as uuid } from "uuid";
-import { Menu } from "./Menu";
 import { OrderMenuItemItem } from "./OrderMenuItemItem";
 
-@Entity("items")
-class Item{
+@Entity("orders")
+class Order{
 
     @PrimaryColumn()
     id: string;
 
-    @Column()
-    name: string;
-
     @Column({ type: 'decimal', precision: 5, scale: 2, default: 0, })
     price: number;
 
-    quantity: number;
+    @Column({ type: 'decimal', precision: 5, scale: 2, default: 0, })
+    discount: number;
+
+    @Column()
+    client_name: string;
+
+    @Column()
+    order_number: number;
+
+    @OneToMany(() => OrderMenuItemItem, ordermenuitem => ordermenuitem.order, {eager: true})
+    @JoinTable()
+    ordermenuitem: OrderMenuItemItem[]
 
     @CreateDateColumn()
     created_at: Date;
-
-    @OneToMany(() => OrderMenuItemItem, orderMenuitem => orderMenuitem.item)
-    ordermenuitem: OrderMenuItemItem[]
 
     @UpdateDateColumn()
     updated_at: Date;
@@ -47,4 +49,4 @@ class Item{
 
 }
 
-export { Item }
+export { Order }
