@@ -7,17 +7,15 @@ import {
     UpdateDateColumn,
     PrimaryColumn,
     JoinTable,
-    ManyToMany,
-    OneToMany,
+    ManyToMany
 
 } from "typeorm";
 
 import { v4 as uuid } from "uuid";
 import { Item } from './Item'
-import { OrderMenuItemItem } from "./OrderMenuItemItem";
 
 @Entity("menus")
-class Menu{
+class Menu {
 
     @PrimaryColumn()
     id: string;
@@ -26,20 +24,17 @@ class Menu{
     name: string;
 
     @CreateDateColumn()
-    created_at: Date;
+    createdAt: Date;
 
-    @ManyToMany(() => Item, {eager: true})
+    @ManyToMany(() => Item, { eager: true })
     @JoinTable()
     items: Item[];    
 
-    @OneToMany(() => OrderMenuItemItem, ordermenuitem => ordermenuitem.menu)
-    ordermenuitem: OrderMenuItemItem[]
-
     @UpdateDateColumn()
-    updated_at: Date;
+    updatedAt: Date;
 
-    constructor() {
-        if(!this.id) {
+    constructor () {
+        if (!this.id) {
             this.id = uuid();
         }
     }

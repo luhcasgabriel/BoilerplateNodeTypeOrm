@@ -1,15 +1,14 @@
 
 import { Request, Response } from "express" 
 import { OrdersService } from "../service/OrdersService"
-import { OrderMenuItemItem } from "../entities/OrderMenuItemItem";
-import { Menu } from "../entities/Menu";
+import { OrderMenu } from "../entities/OrderMenu";
 
 interface IOrdersCreate {
-    client_name?: string,
-    order_number?: number,
+    clientName?: string,
+    orderNumber?: number,
     price: number,
     discount: number,
-    menu: [Menu]
+    menus: [OrderMenu]
 }
 
 class OrdersController {
@@ -19,12 +18,12 @@ class OrdersController {
     async Create(request: Request, response: Response): Promise<Response> {
 
         
-        const { client_name, order_number, price, discount, menu } : IOrdersCreate = request.body;
+        const { clientName, orderNumber, price, discount, menus } : IOrdersCreate = request.body;
         const ordersService = new OrdersService();
 
         try {
 
-            const lunch = await ordersService.Create({ client_name, order_number, price, discount, menu });
+            const lunch = await ordersService.Create({ clientName, orderNumber, price, discount, menus });
         
             return response.json(lunch);
             

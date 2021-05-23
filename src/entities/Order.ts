@@ -5,16 +5,15 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     PrimaryColumn,
-    OneToMany,
-    JoinTable,
+    OneToMany
 
 } from "typeorm";
 
 import { v4 as uuid } from "uuid";
-import { OrderMenuItemItem } from "./OrderMenuItemItem";
+import { OrderMenu } from "./OrderMenu";
 
 @Entity("orders")
-class Order{
+class Order {
 
     @PrimaryColumn()
     id: string;
@@ -26,24 +25,23 @@ class Order{
     discount: number;
 
     @Column()
-    client_name: string;
+    clientName: string
 
     @Column()
-    order_number: number;
-
-    @OneToMany(() => OrderMenuItemItem, ordermenuitem => ordermenuitem.order, {eager: true})
-    @JoinTable()
-    ordermenuitem: OrderMenuItemItem[]
+    orderNumber: number
 
     @CreateDateColumn()
-    created_at: Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updated_at: Date;
+    updatedAt: Date
+
+    @OneToMany(() => OrderMenu, orderMenu => orderMenu.order)
+    menus: OrderMenu[]
 
     constructor() {
         if(!this.id) {
-            this.id = uuid();
+            this.id = uuid()
         }
     }
 

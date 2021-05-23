@@ -13,8 +13,6 @@ import {
 } from "typeorm";
 
 import { v4 as uuid } from "uuid";
-import { Menu } from "./Menu";
-import { OrderMenuItemItem } from "./OrderMenuItemItem";
 
 @Entity("items")
 class Item{
@@ -31,13 +29,10 @@ class Item{
     quantity: number;
 
     @CreateDateColumn()
-    created_at: Date;
-
-    @OneToMany(() => OrderMenuItemItem, orderMenuitem => orderMenuitem.item)
-    ordermenuitem: OrderMenuItemItem[]
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updated_at: Date;
+    updatedAt: Date;
 
     constructor() {
         if(!this.id) {

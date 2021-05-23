@@ -1,17 +1,17 @@
 import { json } from "express";
 import { getCustomRepository, Repository } from "typeorm" 
-import { Item } from "../entities/Item";
 import { Menu } from "../entities/Menu";
 import { Order } from "../entities/Order";
-import { OrderMenuItemItem } from "../entities/OrderMenuItemItem";
 import { OrdersRepository } from "../repositories/OrdersRepository"
+import { OrderMenu } from "../entities/OrderMenu";
+import { Item } from "../entities/Item";
 
 interface IOrdersCreate {
-    client_name?: string,
-    order_number?: number,
+    clientName?: string,
+    orderNumber?: number,
     price: number,
     discount: number,
-    menu: [Menu]
+    menus: [OrderMenu]
 }
 
 class OrdersService {
@@ -23,40 +23,46 @@ class OrdersService {
     }
 
     
-    async Create( { client_name, order_number, price, discount, menu } : IOrdersCreate) {
+    async Create( { clientName, orderNumber, price, discount, menus } : IOrdersCreate) {
 
         console.log("-----------------------")
         console.log("parameters")
-        console.log(client_name)
-        console.log(order_number)
+        console.log(clientName)
+        console.log(orderNumber)
         console.log(price)
         console.log(discount)
         console.log("-----------------------")
         console.log("-----------------------")
 
         const order = new Order();
-        order.client_name = client_name;
-        order.order_number = order_number;
+        order.clientName = clientName;
+        order.orderNumber = orderNumber;
         order.discount = discount;
         order.price = price;
-        order.ordermenuitem =  new Array();
-        const list = [OrderMenuItemItem]
+        order.menus =  menus
+        // const itemsList: Item[] = new Array()
 
-        menu.forEach((menuItem) => {
+        // await this.ordersRepository.manager.save(order);
+
+        // menus.forEach((menu: OrderMenu) => {
             
-            menuItem.items.forEach((itemMenu) => {
+        //     menu.items.forEach((item) => {
 
-                const menu = new Menu();
-                const orderMenuitemItems = new OrderMenuItemItem();
+        //         const orderMenu = new OrderMenu()
+        //         orderMenu.order = order
+        //         orderMenu.items = menu.items
 
-                menu.id = menuItem.id;
-                orderMenuitemItems.menu = menu;
-                orderMenuitemItems.item = itemMenu;
-                orderMenuitemItems.quantity = itemMenu.quantity;
-                order.ordermenuitem.push(orderMenuitemItems);
-            });
+        //         const menu = new Menu();
+        //         const orderMenuitemItems = new OrderMenuItemItem();
 
-        });
+        //         menu.id = menuItem.id;
+        //         orderMenuitemItems.menu = menu;
+        //         orderMenuitemItems.item = itemMenu;
+        //         orderMenuitemItems.quantity = itemMenu.quantity;
+        //         order.menus.push(orderMenu);
+        //     });
+
+        // });
 
         console.log("-----------------------")
         console.log("order antes save")
@@ -74,10 +80,11 @@ class OrdersService {
         console.log("-----------------------")
         console.log("-----------------------")
         console.log("rseponse")
-        console.log(response)
+        // console.log(response)
         console.log("-----------------------")
         console.log("-----------------------")
 
+        // return order;
 
         return response;
 
