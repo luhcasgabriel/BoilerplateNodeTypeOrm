@@ -2,7 +2,7 @@ import { Entity, PrimaryColumn, ManyToOne, Column, CreateDateColumn, UpdateDateC
 import { OrderMenu } from "./OrderMenu";
 import { Item } from "./Item";
 
-Entity({name: 'order_menu_item'})
+@Entity({name: 'order_menu_items'})
 export class OrderMenuItem {
   @PrimaryColumn()
   id: string;
@@ -12,9 +12,6 @@ export class OrderMenuItem {
 
   @Column()
   price: number
-
-  @Column({ type: 'varchar', name: 'item_id' })
-  itemId: string
 
   @Column({ type: 'varchar', name: 'order_menu_id' })
   orderMenuId: string

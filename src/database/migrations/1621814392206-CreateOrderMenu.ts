@@ -5,7 +5,7 @@ export class CreateOrderMenu1621814392206 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "order_menu",
+                name: "order_menus",
                 columns: [
                     {
                         name: "id",
@@ -17,10 +17,6 @@ export class CreateOrderMenu1621814392206 implements MigrationInterface {
                         type: "varchar"
                     },
                     {
-                        name: "order_id",
-                        type: "uuid",
-                    },
-                    {
                         name: "created_at",
                         type: "timestamp",
                         default: "now()"
@@ -30,17 +26,8 @@ export class CreateOrderMenu1621814392206 implements MigrationInterface {
                         type: "timestamp",
                         default: "now()"
                     }
-                ],
-                foreignKeys: [
-                    {
-                        name: "FKOrderMenuOrder",
-                        referencedTableName: "orders",
-                        referencedColumnNames: ["id"],
-                        columnNames: ["order_id"],
-                        onDelete: "SET NULL",
-                        onUpdate: "SET NULL"
-                    }
                 ]
+
             })
         )
     }
