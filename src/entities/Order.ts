@@ -24,20 +24,20 @@ class Order {
     @Column({ type: 'decimal', precision: 5, scale: 2, default: 0, })
     discount: number;
 
-    @Column()
+    @Column({ name: 'client_name' })
     clientName: string
 
-    @Column()
+    @Column({ name: 'order_number' })
     orderNumber: number
 
-    @CreateDateColumn()
+    @OneToMany(() => OrderMenu, orderMenu => orderMenu.order)
+    orderMenus: OrderMenu[]
+
+    @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ name: 'updated_at' })
     updatedAt: Date
-
-    @OneToMany(() => OrderMenu, orderMenu => orderMenu.order)
-    menus: OrderMenu[]
 
     constructor() {
         if(!this.id) {

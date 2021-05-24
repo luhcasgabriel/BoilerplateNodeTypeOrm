@@ -28,10 +28,10 @@ class Item{
 
     quantity: number;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ name: 'updated_at' })
     updatedAt: Date;
 
     constructor() {

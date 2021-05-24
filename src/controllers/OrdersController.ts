@@ -8,7 +8,7 @@ interface IOrdersCreate {
     orderNumber?: number,
     price: number,
     discount: number,
-    menus: [OrderMenu]
+    orderMenus: [OrderMenu]
 }
 
 class OrdersController {
@@ -18,12 +18,12 @@ class OrdersController {
     async Create(request: Request, response: Response): Promise<Response> {
 
         
-        const { clientName, orderNumber, price, discount, menus } : IOrdersCreate = request.body;
+        const { clientName, orderNumber, price, discount, orderMenus } : IOrdersCreate = request.body;
         const ordersService = new OrdersService();
 
         try {
 
-            const lunch = await ordersService.Create({ clientName, orderNumber, price, discount, menus });
+            const lunch = await ordersService.Create({ clientName, orderNumber, price, discount, orderMenus });
         
             return response.json(lunch);
             

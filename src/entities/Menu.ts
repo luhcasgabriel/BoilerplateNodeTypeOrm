@@ -23,14 +23,14 @@ class Menu {
     @Column()
     name: string;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
 
     @ManyToMany(() => Item, { eager: true })
     @JoinTable()
     items: Item[];    
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ name: 'updated_at' })
     updatedAt: Date;
 
     constructor () {
