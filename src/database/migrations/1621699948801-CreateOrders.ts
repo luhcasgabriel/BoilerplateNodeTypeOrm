@@ -47,6 +47,7 @@ export class CreateOrders1621699948801 implements MigrationInterface {
                 ]
             })
         )
+
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

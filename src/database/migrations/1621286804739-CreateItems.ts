@@ -1,4 +1,6 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import {MigrationInterface, QueryRunner, Table, getConnection} from "typeorm";
+import { Item } from "../../entities/Item";
+import { v4 as uuid } from "uuid";
 
 export class CreateItems1621286804739 implements MigrationInterface {
 
@@ -34,6 +36,9 @@ export class CreateItems1621286804739 implements MigrationInterface {
                 ]
             })
         )
+
+        
+
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

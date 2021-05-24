@@ -25,6 +25,7 @@ class OrdersService {
     
     async Create( { client_name, order_number, price, discount, menu } : IOrdersCreate) {
 
+       
         console.log("-----------------------")
         console.log("parameters")
         console.log(client_name)
@@ -43,6 +44,8 @@ class OrdersService {
         order.ordermenuitem =  new Array();
         const list = [OrderMenusItemItem]
 
+        const response = await this.ordersRepository.manager.save(order);
+
         menu.forEach((menuItem) => {
             
             menuItem.items.forEach((itemMenu) => {
@@ -56,18 +59,19 @@ class OrdersService {
                 item.id = itemMenu.id;
                 orderMenuitemItems.item = item;
                 orderMenuitemItems.quantity = itemMenu.quantity;
-                order.ordermenuitem.push(orderMenuitemItems);
+                orderMenuitemItems.order = order
+                const response2 = this.ordersRepository.manager.save(orderMenuitemItems);
+                // order.ordermenuitem.push(orderMenuitemItems);
             });
 
         });
- 
+
         console.log("-----------------------")
         console.log("order antes save")
-        console.log(order)
 
         console.log("-----------------------")
         console.log("-----------------------")
-        const response = await this.ordersRepository.manager.save(order);
+        
 
         console.log("-----------------------")
         console.log("order pos save")
