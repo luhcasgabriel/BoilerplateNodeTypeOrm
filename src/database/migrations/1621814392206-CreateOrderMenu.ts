@@ -5,7 +5,7 @@ export class CreateOrderMenu1621814392206 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "order_menu",
+                name: "order_menus",
                 columns: [
                     {
                         name: "id",
@@ -15,10 +15,6 @@ export class CreateOrderMenu1621814392206 implements MigrationInterface {
                     {
                         name: "name_menu",
                         type: "varchar"
-                    },
-                    {
-                        name: "order_id",
-                        type: "uuid",
                     },
                     {
                         name: "created_at",
@@ -31,6 +27,7 @@ export class CreateOrderMenu1621814392206 implements MigrationInterface {
                         default: "now()"
                     }
                 ]
+
             })
         )
     }

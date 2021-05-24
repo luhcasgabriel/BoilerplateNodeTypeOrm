@@ -1,6 +1,7 @@
 import { Entity, PrimaryColumn, ManyToOne, OneToMany, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { Order } from "./Order";
 import { OrderMenuItem } from "./OrderMenuItem";
+import { v4 as uuid } from "uuid";
 
 @Entity({ name: 'order_menu' })
 class OrderMenu {
@@ -21,6 +22,12 @@ class OrderMenu {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date
+
+  constructor() {
+    if(!this.id) {
+        this.id = uuid()
+    }
+  }
 }
 
 export { OrderMenu }

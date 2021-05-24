@@ -1,9 +1,10 @@
-import { json } from "express";
 import { getCustomRepository, Repository } from "typeorm" 
-import { Menu } from "../entities/Menu";
 import { Order } from "../entities/Order";
 import { OrdersRepository } from "../repositories/OrdersRepository"
+import { OrderMenuRepository } from "../repositories/OrderMenuRepository"
+import { OrderMenuItemRepository } from "../repositories/OrderMenuItemRepository"
 import { OrderMenu } from "../entities/OrderMenu";
+import { OrderMenuItem } from "../entities/OrderMenuItem";
 import { Item } from "../entities/Item";
 
 interface IOrdersCreate {
@@ -16,10 +17,14 @@ interface IOrdersCreate {
 
 class OrdersService {
 
-    private ordersRepository: Repository<Order>;
+    private ordersRepository: Repository<Order>
+    private orderMenuRepository: Repository<OrderMenu>
+    private orderMenuItemRepository: Repository<OrderMenuItem>
 
     constructor() {
-        this.ordersRepository = getCustomRepository(OrdersRepository);
+        this.ordersRepository = getCustomRepository(OrdersRepository)
+        this.orderMenuRepository = getCustomRepository(OrderMenuRepository)
+        this.orderMenuItemRepository = getCustomRepository(OrderMenuItemRepository)
     }
 
     
@@ -40,6 +45,52 @@ class OrdersService {
         order.discount = discount;
         order.price = price;
         order.menus =  menus
+
+        console.log("------------menus-----------")
+        console.log(menus)
+
+        let response
+
+        try {
+            response = await this.ordersRepository.manager.save(order)
+        } catch (err) {
+            console.log('erro save order')
+            console.log(err)
+        }
+
+        // menus.map((menu) => {
+        //     menu.order = order
+        // })
+
+        try {
+            menus.map(async (menu) => {
+                let m = new OrderMenu()
+                console.log('menu')
+                m.order = new Order()
+                m.order.id = order.id
+                m.nameMenu = menu.nameMenu
+                console.log(m)
+                m = await this.orderMenuRepository.manager.save(m)
+
+                menu.items.map(async (item) => {
+                    const omi = new OrderMenuItem()
+                    omi.orderMenu = new OrderMenu()
+                    omi.orderMenu.id = m.id
+                    omi.item = new Item()
+                    omi.item.id = item.id
+                    omi.quantity = item.quantity
+                    omi.price = item.price
+                    console.log('order menu item')
+                    console.log(omi)
+                    await this.orderMenuItemRepository.manager.save(omi)
+                })
+            })
+        } catch (err) {
+            console.log('erro save menus')
+            console.log(err)
+        }
+
+
         // const itemsList: Item[] = new Array()
 
         // await this.ordersRepository.manager.save(order);
@@ -70,7 +121,7 @@ class OrdersService {
 
         console.log("-----------------------")
         console.log("-----------------------")
-        const response = await this.ordersRepository.manager.save(order);
+        // const response = await this.ordersRepository.manager.save(order);
 
         console.log("-----------------------")
         console.log("order pos save")

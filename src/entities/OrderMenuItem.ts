@@ -1,6 +1,7 @@
 import { Entity, PrimaryColumn, ManyToOne, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { OrderMenu } from "./OrderMenu";
 import { Item } from "./Item";
+import { v4 as uuid } from "uuid";
 
 @Entity({name: 'order_menu_item'})
 class OrderMenuItem {
@@ -12,9 +13,6 @@ class OrderMenuItem {
 
   @Column()
   price: number
-
-  @Column({ type: 'varchar', name: 'item_id' })
-  itemId: string
 
   @Column({ type: 'varchar', name: 'order_menu_id' })
   orderMenuId: string
@@ -30,6 +28,12 @@ class OrderMenuItem {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date
+
+  constructor() {
+    if(!this.id) {
+        this.id = uuid()
+    }
+  }
 }
 
 export { OrderMenuItem }
