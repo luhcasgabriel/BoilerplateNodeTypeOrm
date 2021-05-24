@@ -30,16 +30,6 @@ export class CreateOrderMenu1621814392206 implements MigrationInterface {
                         type: "timestamp",
                         default: "now()"
                     }
-                ],
-                foreignKeys: [
-                    {
-                        name: "FKOrderMenuOrder",
-                        referencedTableName: "orders",
-                        referencedColumnNames: ["id"],
-                        columnNames: ["order_id"],
-                        onDelete: "SET NULL",
-                        onUpdate: "SET NULL"
-                    }
                 ]
             })
         )

@@ -2,8 +2,8 @@ import { Entity, PrimaryColumn, ManyToOne, Column, CreateDateColumn, UpdateDateC
 import { OrderMenu } from "./OrderMenu";
 import { Item } from "./Item";
 
-Entity({name: 'order_menu_item'})
-export class OrderMenuItem {
+@Entity({name: 'order_menu_item'})
+class OrderMenuItem {
   @PrimaryColumn()
   id: string;
 
@@ -31,3 +31,5 @@ export class OrderMenuItem {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date
 }
+
+export { OrderMenuItem }

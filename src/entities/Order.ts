@@ -31,7 +31,7 @@ class Order {
     orderNumber: number
 
     @OneToMany(() => OrderMenu, orderMenu => orderMenu.order)
-    orderMenus: OrderMenu[]
+    menus: OrderMenu[]
 
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;

@@ -11,7 +11,7 @@ interface IOrdersCreate {
     orderNumber?: number,
     price: number,
     discount: number,
-    orderMenus: [OrderMenu]
+    menus: [OrderMenu]
 }
 
 class OrdersService {
@@ -23,7 +23,7 @@ class OrdersService {
     }
 
     
-    async Create( { clientName, orderNumber, price, discount, orderMenus } : IOrdersCreate) {
+    async Create( { clientName, orderNumber, price, discount, menus } : IOrdersCreate) {
 
         console.log("-----------------------")
         console.log("parameters")
@@ -39,7 +39,7 @@ class OrdersService {
         order.orderNumber = orderNumber;
         order.discount = discount;
         order.price = price;
-        order.orderMenus =  orderMenus
+        order.menus =  menus
         // const itemsList: Item[] = new Array()
 
         // await this.ordersRepository.manager.save(order);
