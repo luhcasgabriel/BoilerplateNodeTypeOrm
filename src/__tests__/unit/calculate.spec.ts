@@ -1,36 +1,14 @@
-import request from 'supertest'
-import { create, close, clear } from '../../database'
-import AppController from '../../app'
 import { OrdersController } from "../../controllers/OrdersController"
-import { Promotion } from '../../entities/Promotion'
 import { order } from "./payload/orders"
-import { IOrdersCreate } from "../../interfaces/IOrdersCreate"
 import { Menu } from '../../entities/Menu'
-
-// const app = new AppController().app
-
-// beforeAll(async ()=>{
-//     await create()
-// })
-
-// afterAll(async ()=>{
-//     await close()
-// })
-
-// beforeEach(async () => {
-//     clear()
-// })
+import { menuXBacon } from './payload/orders'
 
 describe('Calculate value total with promotion', () => {
-   /* it('should return order list with value order', async () => {
-        
-        const orderController = new OrdersController();
-        const menuEntity = new Menu();
+   it('should return order list with value order', async () => {
+    const menus: Menu[] = []
+    menus.push(menuXBacon);
 
-
-        orderController.calculation({price : order.price , discount: order.discount, menu: []);
-        expect(responseGet.body.length).toEqual(0)
-        expect(responseGet.status).toEqual(200)
-    })*/
-
+    (new OrdersController()).calculation({ price: order.price , discount: order.discount, menu: menus })
+    expect(200).toEqual(200)
+    })
 })

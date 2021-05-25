@@ -5,7 +5,7 @@ interface IOrdersCreate {
   orderNumber?: number,
   price: number,
   discount: number,
-  menu: [Menu]
+  menu: Menu[]
 }
 
 export { IOrdersCreate }

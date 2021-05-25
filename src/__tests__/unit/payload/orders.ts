@@ -7,10 +7,7 @@ export const order = {
     
 }
 
-const alfaceItem = { id: "41acfc3f-47bd-4a13-9090-6799d18bde0f", name: 'Alface', price: 0.40, quantity: 1}
-const baconItem = { id: "db911c5b-26e3-4f31-9c7e-2d800eb58ed3", name: 'Bacon', price: 2.0 , quantity: 2}
-
-const menuXBacon = {
+export const menuXBacon = <Menu>{
     id: "81d8c4a7-8956-483d-b81d-88d37c140f02",
     items: [
         {
@@ -28,7 +25,7 @@ const menuXBacon = {
     ]
 };
 
-const menuXBurger = {
+export const menuXBurger = <Menu>{
     id: "409dc803-ae9c-4097-b48a-aaf9a0ec28dc",
     items: [
         {
