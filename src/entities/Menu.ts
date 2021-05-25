@@ -15,6 +15,7 @@ import {
 import { v4 as uuid } from "uuid";
 import { Item } from './Item'
 import { OrderMenusItemItem } from "./OrderMenusItemItem";
+import { Promotion } from "./Promotion";
 
 @Entity("menus")
 class Menu{
@@ -37,6 +38,8 @@ class Menu{
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    promotions: Promotion[]
 
     constructor() {
         if(!this.id) {

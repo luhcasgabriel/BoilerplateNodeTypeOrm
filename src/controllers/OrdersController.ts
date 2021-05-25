@@ -3,6 +3,7 @@ import { Request, Response } from "express"
 import { OrdersService } from "../service/OrdersService"
 import { OrderMenusItemItem } from "../entities/OrderMenusItemItem";
 import { Menu } from "../entities/Menu";
+import { PromotionsController } from "./PromotionsController"
 
 interface IOrdersCreate {
     client_name?: string,
@@ -23,6 +24,8 @@ class OrdersController {
         const ordersService = new OrdersService();
 
         try {
+
+            this.Calculation({ client_name, order_number, price, discount, menu });
 
             const lunch = await ordersService.Create({ client_name, order_number, price, discount, menu });
         
@@ -74,6 +77,27 @@ class OrdersController {
                 message: error.message
             });
         }
+    }
+
+    Calculation({ client_name, order_number, price, discount, menu } : IOrdersCreate ){
+    
+        
+        const promotionController = new PromotionsController();
+
+
+        menu.forEach((menuItem) => {
+            menuItem.items.forEach((item) => {
+                const priceItem = item.price;
+                item.price *= priceItem;
+                discount = 0;
+                price += item.price;
+                
+            });
+        });
+
+
+        promotionController.Promotion({ client_name, order_number, price, discount, menu });
+
     }
 }
 
