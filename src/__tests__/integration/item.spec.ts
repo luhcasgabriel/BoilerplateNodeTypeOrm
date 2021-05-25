@@ -1,5 +1,6 @@
 import request from 'supertest'
 import { create, close, clear } from '../../database'
+import { alfaceItem, ovoItem, queijoItem } from './payload/items'
 import AppController from '../../app'
 
 const app = new AppController().app
@@ -24,13 +25,11 @@ describe('Items', () => {
     })
 
     it('should save one item', async () => {
-        const item = { name: 'Alface', price: 0.40 }
-
-        const responsePost = await request(app).post('/items').send(item)
+        const responsePost = await request(app).post('/items').send(alfaceItem)
 
         expect(responsePost.status).toEqual(200)
-        expect(responsePost.body.name).toEqual(item.name)
-        expect(responsePost.body.price).toEqual(item.price)
+        expect(responsePost.body.name).toEqual(alfaceItem.name)
+        expect(responsePost.body.price).toEqual(alfaceItem.price)
         expect(responsePost.body.id).not.toBeNull()
         expect(responsePost.body.createdAt).not.toBeNull()
         expect(responsePost.body.updatedAt).not.toBeNull()
@@ -41,8 +40,8 @@ describe('Items', () => {
     })
 
     it('should save two items', async () => {
-        await request(app).post('/items').send({ name: 'Ovo', price: 0.80 })
-        await request(app).post('/items').send({ name: 'Queijo', price: 1.00 })
+        await request(app).post('/items').send(ovoItem)
+        await request(app).post('/items').send(queijoItem)
 
         const responseGet = await request(app).get('/items')
         expect(responseGet.body.length).toEqual(2)
