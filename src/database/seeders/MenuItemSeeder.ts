@@ -42,7 +42,7 @@ class MenuItemSeeder {
                 .createQueryBuilder()
                 .delete()
                 .from("Menus_items_items")
-                .where("id = :id", { id: item.id})
+                .where("menusId = :menusId", { menusId: item.id})
                 .execute();
             });
         });
