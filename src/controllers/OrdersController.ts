@@ -1,5 +1,6 @@
 
 import { Request, Response } from 'express'
+import { PromotionsController } from './PromotionsController'
 import { OrdersService } from '../service/OrdersService'
 import { IOrdersCreate } from '../interfaces/IOrdersCreate'
 
@@ -9,6 +10,7 @@ class OrdersController {
 
         try {
             const lunch = await (new OrdersService()).create({ clientName, orderNumber, price, discount, menu })
+            this.calculation({ price, discount, menu })
             return response.json(lunch)
         } catch (error) {
             return response.status(400).json({ message: error.message })
@@ -38,6 +40,20 @@ class OrdersController {
         } catch (error) {
             return response.status(400).json({ message: error.message })
         }
+    }
+
+    calculation ({ price, discount, menu } : IOrdersCreate ) {
+        const promotionController = new PromotionsController()
+        menu.forEach((menuItem) => {
+            menuItem.items.forEach((item) => {
+                const priceItem = item.price
+                item.price *= priceItem
+                discount = 0
+                price += item.price
+            })
+        })
+
+        promotionController.promotion({ price, discount, menu })
     }
 }
 

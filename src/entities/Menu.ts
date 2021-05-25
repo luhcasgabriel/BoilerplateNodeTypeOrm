@@ -4,6 +4,7 @@ import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryColumn, Join
 import { v4 as uuid } from 'uuid'
 import { Item } from './Item'
 import { OrderMenusItemItem } from './OrderMenusItemItem'
+import { Promotion } from "./Promotion"
 
 @Entity('menus')
 class Menu {
@@ -26,6 +27,8 @@ class Menu {
 
     @UpdateDateColumn({ name: 'updated_at' })
     updatedAt: Date
+
+    promotions: Promotion[]
 
     constructor () {
         if (!this.id) {
