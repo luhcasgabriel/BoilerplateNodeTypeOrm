@@ -1,78 +1,43 @@
 
-import { Request, Response } from "express" 
-import { MenusService } from "../service/MenusService"
-import { Item } from "../entities/Item";
-
-interface IMenuItems {
-    id: string,
-    name: string,
-    created_at: Date,
-    items: [Item]
-}
+import { Request, Response } from 'express'
+import { MenusService } from '../service/MenusService'
 
 class MenusController {
-
-    private menuList : [IMenuItems];
-
-    async Create(request: Request, response: Response): Promise<Response> {
-
-        
-        const { name, items } = request.body;
-        const menuService = new MenusService();
+    async create (request: Request, response: Response): Promise<Response> {
+        const { name, items } = request.body
 
         try {
-
-            const lunch = await menuService.Create({ name, items});
-        
-            return response.json(lunch);
-            
+            const menu = await (new MenusService()).create({ name, items })
+            return response.json(menu)
         } catch (error) {
-            return response.status(400).json({
-                message: error.message
-            });
-        }
-    }
-    async Find(request: Request, response: Response): Promise<Response> {
-
-        const  { id }  = request.params;
-        const menuService = new MenusService();
-
-        try {
-
-            const itemMenu = await menuService.findItemsById(id);
-            
-            if(!itemMenu) {
-                return response.status(204).json({
-                    message: "menu item not found"
-                });
-            }
-            else {
-                return response.json(itemMenu);
-            }
-            
-        } catch (error) {
-            return response.status(400).json({
-                message: error.message
-            });
+            return response.status(400).json({ message: error.message })
         }
     }
 
-    async List(request: Request, response: Response): Promise<Response> {
-
-        const menuService = new MenusService();
+    async find (request: Request, response: Response): Promise<Response> {
+        const  { id }  = request.params
 
         try {
- 
-            const menuList = await menuService.list();
+            const itemMenu = await (new MenusService()).findItemsById(id)
 
-            return response.json(menuList);
-            
+            if (itemMenu) {
+                return response.json(itemMenu)
+            }
+
+            return response.status(204).json({ message: 'Menu item not found' })
         } catch (error) {
-            return response.status(400).json({
-                message: error.message
-            });
+            return response.status(400).json({ message: error.message })
+        }
+    }
+
+    async list (request: Request, response: Response): Promise<Response> {
+        try {
+            const list = await (new MenusService()).list()
+            return response.json(list)
+        } catch (error) {
+            return response.status(400).json({ message: error.message })
         }
     }
 }
 
-export { MenusController } 
+export { MenusController }

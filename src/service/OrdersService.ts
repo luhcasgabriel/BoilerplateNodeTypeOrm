@@ -1,109 +1,56 @@
-import { json } from "express";
-import { getCustomRepository, Repository } from "typeorm" 
-import { Item } from "../entities/Item";
-import { Menu } from "../entities/Menu";
-import { Order } from "../entities/Order";
-import { OrderMenusItemItem } from "../entities/OrderMenusItemItem";
-import { OrdersRepository } from "../repositories/OrdersRepository"
-
-interface IOrdersCreate {
-    client_name?: string,
-    order_number?: number,
-    price: number,
-    discount: number,
-    menu: [Menu]
-}
+import { getCustomRepository, Repository } from 'typeorm'
+import { OrdersRepository } from '../repositories/OrdersRepository'
+import { Item } from '../entities/Item'
+import { Menu } from '../entities/Menu'
+import { Order } from '../entities/Order'
+import { OrderMenusItemItem } from '../entities/OrderMenusItemItem'
+import { IOrdersCreate } from '../interfaces/IOrdersCreate'
 
 class OrdersService {
+    private ordersRepository: Repository<Order>
 
-    private ordersRepository: Repository<Order>;
-
-    constructor() {
-        this.ordersRepository = getCustomRepository(OrdersRepository);
+    constructor () {
+        this.ordersRepository = getCustomRepository(OrdersRepository)
     }
 
-    
-    async Create( { client_name, order_number, price, discount, menu } : IOrdersCreate) {
+    async create ({ clientName, orderNumber, price, discount, menu } : IOrdersCreate) {
+        const order = new Order()
+        order.clientName = clientName
+        order.orderNumber = orderNumber
+        order.discount = discount
+        order.price = price
+        order.ordermenuitem = new Array()
 
-       
-        console.log("-----------------------")
-        console.log("parameters")
-        console.log(client_name)
-        console.log(order_number)
-        console.log(price)
-        console.log(discount)
-        console.log(menu)
-        console.log("-----------------------")
-        console.log("-----------------------")
-
-        const order = new Order();
-        order.client_name = client_name;
-        order.order_number = order_number;
-        order.discount = discount;
-        order.price = price;
-        order.ordermenuitem =  new Array();
-        const list = [OrderMenusItemItem]
-
-        const response = await this.ordersRepository.manager.save(order);
+        const response = await this.ordersRepository.manager.save(order)
 
         menu.forEach((menuItem) => {
-            
             menuItem.items.forEach((itemMenu) => {
 
                 const menu = new Menu();
                 const item = new Item();
                 const orderMenuitemItems = new OrderMenusItemItem();
 
-                menu.id = menuItem.id;
-                orderMenuitemItems.menu = menu;
-                item.id = itemMenu.id;
-                orderMenuitemItems.item = item;
-                orderMenuitemItems.quantity = itemMenu.quantity;
+                menu.id = menuItem.id
+                orderMenuitemItems.menu = menu
+                item.id = itemMenu.id
+                orderMenuitemItems.item = item
+                orderMenuitemItems.quantity = itemMenu.quantity
                 orderMenuitemItems.order = order
-                const response2 = this.ordersRepository.manager.save(orderMenuitemItems);
-                // order.ordermenuitem.push(orderMenuitemItems);
-            });
+                this.ordersRepository.manager.save(orderMenuitemItems)
+            })
+        })
 
-        });
-
-        console.log("-----------------------")
-        console.log("order antes save")
-
-        console.log("-----------------------")
-        console.log("-----------------------")
-        
-
-        console.log("-----------------------")
-        console.log("order pos save")
-        console.log(order)
-
-        console.log("-----------------------")
-        console.log("-----------------------")
-        console.log("-----------------------")
-        console.log("rseponse")
-        console.log(response)
-        console.log("-----------------------")
-        console.log("-----------------------")
-
-
-        return response;
-
+        return response
     }
 
     
-    async list() {
-        const orders = await this.ordersRepository.find();
-
-        return orders;
+    async list () {
+        return await this.ordersRepository.find()
     }
 
-    async findItemsById(id: string) {
-
-        const order = await this.ordersRepository.findOne({ id });
-
-        return order;
+    async findItemsById (id: string) {
+        return await this.ordersRepository.findOne({ id })
     }
-
 }
 
-export { OrdersService } 
+export { OrdersService }

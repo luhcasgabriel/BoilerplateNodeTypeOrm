@@ -1,58 +1,39 @@
 
-import { Request, Response } from "express" 
-import { ItemsService } from "../service/ItemsService"
+import { Request, Response } from 'express'
+import { ItemsService } from '../service/ItemsService'
 
 class ItemsController {
-
-
-    async Create(request: Request, response: Response): Promise<Response> {
-
-        const { name, price } = request.body;
-        const itemsService = new ItemsService();
+    async create (request: Request, response: Response): Promise<Response> {
+        const { name, price } = request.body
 
         try {
-
-            const item = await itemsService.Create({name, price});
-            return response.json(item);
-            
+            const item = await (new ItemsService()).create({ name, price })
+            return response.json(item)
         } catch (error) {
-            return response.status(400).json({
-                message: error.message
-            });
+            return response.status(400).json({ message: error.message })
         }
-
     }
 
-    async Find(request: Request, response: Response): Promise<Response> {
-
-        const  name  = request.query.name;
-        const itemsService = new ItemsService();
+    async find (request: Request, response: Response): Promise<Response> {
+        const { name } = request.query
 
         try {
+            if (name) {
+                const item = await (new ItemsService()).findByName(name.toString())
 
-            if(name) {
-                const item = await itemsService.findByName(name.toString());
-            
-                if(!item) {
-                    return response.status(204).json({
-                        message: "item not found"
-                    });
+                if (item) {
+                    return response.json(item)
                 }
-                else {
-                    return response.json(item);
-                }
-            }
-            else {
-                const item = await itemsService.findList();
-                return response.json(item);
+                
+                return response.status(204).json({ message: 'Item not found' })
             }
 
+            const item = await (new ItemsService()).findList()
+            return response.json(item)
         } catch (error) {
-            return response.status(400).json({
-                message: error.message
-            });
+            return response.status(400).json({ message: error.message })
         }
     }
 }
 
-export { ItemsController } 
+export { ItemsController }

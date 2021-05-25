@@ -1,49 +1,37 @@
 
 
-import {
-    Entity,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    PrimaryColumn,
-    JoinTable,
-    ManyToMany,
-    OneToMany,
-
-} from "typeorm";
-
-import { v4 as uuid } from "uuid";
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryColumn, JoinTable, ManyToMany, OneToMany } from 'typeorm'
+import { v4 as uuid } from 'uuid'
 import { Item } from './Item'
-import { OrderMenusItemItem } from "./OrderMenusItemItem";
+import { OrderMenusItemItem } from './OrderMenusItemItem'
 
-@Entity("menus")
-class Menu{
+@Entity('menus')
+class Menu {
 
     @PrimaryColumn()
-    id: string;
+    id: string
 
     @Column()
-    name: string;
-
-    @CreateDateColumn()
-    created_at: Date;
+    name: string
 
     @ManyToMany(() => Item)
     @JoinTable()
-    items: Item[];    
+    items: Item[]
 
     @OneToMany(() => OrderMenusItemItem, ordermenuitem => ordermenuitem.menu)
     ordermenuitem: OrderMenusItemItem[]
 
-    @UpdateDateColumn()
-    updated_at: Date;
+    @CreateDateColumn({ name: 'created_at' })
+    createdAt: Date
 
-    constructor() {
-        if(!this.id) {
-            this.id = uuid();
+    @UpdateDateColumn({ name: 'updated_at' })
+    updatedAt: Date
+
+    constructor () {
+        if (!this.id) {
+            this.id = uuid()
         }
     }
-
 }
 
 export { Menu }
