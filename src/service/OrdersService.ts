@@ -21,6 +21,8 @@ class OrdersService {
         order.price = price
         order.ordermenuitem = new Array()
 
+            console.log(order.price)
+            console.log(order.discount)
         const response = await this.ordersRepository.manager.save(order)
 
         menu.forEach((menuItem) => {
@@ -36,6 +38,7 @@ class OrdersService {
                 orderMenuitemItems.item = item
                 orderMenuitemItems.quantity = itemMenu.quantity
                 orderMenuitemItems.order = order
+
                 this.ordersRepository.manager.save(orderMenuitemItems)
             })
         })

@@ -3,14 +3,26 @@ import { Request, Response } from 'express'
 import { PromotionsController } from './PromotionsController'
 import { OrdersService } from '../service/OrdersService'
 import { IOrdersCreate } from '../interfaces/IOrdersCreate'
+import { Order } from '../entities/Order';
+import { Menu } from '../entities/Menu';
+import { Item } from '../entities/Item';
+import { OrderMenusItemItem } from '../entities/OrderMenusItemItem';
 
 class OrdersController {
     async create (request: Request, response: Response): Promise<Response> {
         const { clientName, orderNumber, price, discount, menu } : IOrdersCreate = request.body;
 
+        const promotionController = new PromotionsController();
+
         try {
-            const lunch = await (new OrdersService()).create({ clientName, orderNumber, price, discount, menu });
-            this.calculation({ price, discount, menu });
+
+            const {order, listMenu } = promotionController.calculation({ clientName, orderNumber, price, discount, menu });
+
+            console.log(order.price)
+            console.log(order.discount)
+           
+            const lunch = await (new OrdersService()).create({ clientName, orderNumber, price: order.price, discount :order.discount, menu : listMenu });
+            
             return response.json(lunch);
         } catch (error) {
             return response.status(400).json({ message: error.message });
@@ -42,19 +54,7 @@ class OrdersController {
         }
     }
 
-    calculation ({ price, discount, menu } : IOrdersCreate ) {
-        const promotionController = new PromotionsController();
-        menu.forEach((menuItem) => {
-            menuItem.items.forEach((item) => {
-                const priceItem = item.price
-                item.price *= priceItem
-                discount = 0
-                price += item.price
-            })
-        })
-
-        promotionController.promotion({ price, discount, menu })
-    }
+    
+        
 }
-
 export { OrdersController }
