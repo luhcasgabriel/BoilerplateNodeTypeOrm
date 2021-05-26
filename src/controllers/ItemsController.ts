@@ -3,6 +3,8 @@ import { Request, Response } from 'express'
 import { ItemsService } from '../service/ItemsService'
 
 class ItemsController {
+
+    /* Create Items Method */
     async create (request: Request, response: Response): Promise<Response> {
         const { name, price } = request.body
 
@@ -14,6 +16,7 @@ class ItemsController {
         }
     }
 
+    /* Find Items Method */
     async find (request: Request, response: Response): Promise<Response> {
         const { name } = request.query
 

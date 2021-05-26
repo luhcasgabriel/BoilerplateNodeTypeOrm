@@ -1,5 +1,6 @@
 import { order } from "./payload/orders"
 import { Menu } from '../../entities/Menu'
+import { PromotionsController } from "../../controllers/PromotionsController"
 import { 
     menuXBacon,menuXBurger, 
     menuXEgg, 
@@ -13,8 +14,8 @@ import {
     cheese,
     hamburgers,
     lettuce } from './payload/orders'
-import { PromotionsController } from "../../controllers/PromotionsController"
 
+/* Unit tests to calculate the final value and discount of promotions */
 describe('Calculate value total with promotion', () => {
 
     it('should return price with discount to list order - Test XBacon', async () => {

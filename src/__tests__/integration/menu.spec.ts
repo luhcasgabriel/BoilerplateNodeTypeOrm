@@ -25,7 +25,7 @@ const createItems = async () => {
     await request(app).post('/items').send(item)
   }
 }
-
+/* Integrated tests Menu */
 describe('Menu', () => {
   it('should return menus with 200 status code', async () => {
     const responseGet = await request(app).get('/menu')

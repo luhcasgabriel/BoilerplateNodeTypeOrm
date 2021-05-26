@@ -3,12 +3,11 @@ import { Request, Response } from 'express'
 import { PromotionsController } from './PromotionsController'
 import { OrdersService } from '../service/OrdersService'
 import { IOrdersCreate } from '../interfaces/IOrdersCreate'
-import { Order } from '../entities/Order';
-import { Menu } from '../entities/Menu';
-import { Item } from '../entities/Item';
-import { OrderMenusItemItem } from '../entities/OrderMenusItemItem';
+
 
 class OrdersController {
+
+    /* Create order method */
     async create (request: Request, response: Response): Promise<Response> {
         const { clientName, orderNumber, price, discount, menu } : IOrdersCreate = request.body;
 
@@ -16,11 +15,10 @@ class OrdersController {
 
         try {
 
+            /* calls order calculation method and promotions discount  */
             const {order, listMenu } = promotionController.calculation({ clientName, orderNumber, price, discount, menu });
 
-            console.log(order.price)
-            console.log(order.discount)
-           
+            /* calls create order service method  */
             const lunch = await (new OrdersService()).create({ clientName, orderNumber, price: order.price, discount :order.discount, menu : listMenu });
             
             return response.json(lunch);
@@ -29,6 +27,7 @@ class OrdersController {
         }
     }
 
+    /* find order method */
     async find (request: Request, response: Response): Promise<Response> {
         const  { id }  = request.params;
 
@@ -45,6 +44,7 @@ class OrdersController {
         }
     }
 
+    /* list order method */
     async list (request: Request, response: Response): Promise<Response> {
         try {
             const orders = await (new OrdersService()).list();

@@ -3,6 +3,8 @@ import { Request, Response } from 'express'
 import { MenusService } from '../service/MenusService'
 
 class MenusController {
+
+    /* Create menu method */
     async create (request: Request, response: Response): Promise<Response> {
         const { name, items } = request.body
 
@@ -14,6 +16,7 @@ class MenusController {
         }
     }
 
+    /* Find menu method */
     async find (request: Request, response: Response): Promise<Response> {
         const  { id }  = request.params
 
@@ -30,6 +33,7 @@ class MenusController {
         }
     }
 
+    /* Method list menu */
     async list (request: Request, response: Response): Promise<Response> {
         try {
             const list = await (new MenusService()).list()

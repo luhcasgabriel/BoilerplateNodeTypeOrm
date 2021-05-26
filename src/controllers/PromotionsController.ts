@@ -8,6 +8,7 @@ import { IOrdersCreate } from '../interfaces/IOrdersCreate'
 
 class PromotionsController {
 
+    /* method of calculating the final value of the order */
     calculation ({ clientName, orderNumber, price, discount, menu } : IOrdersCreate ) {
 
 
@@ -20,6 +21,7 @@ class PromotionsController {
             })
         })
 
+        /* calls promotion method */
         const {order, menu : listMenu } = this.promotion({clientName, orderNumber, price, discount, menu : menu})
         
         return {
@@ -31,13 +33,15 @@ class PromotionsController {
 
 
 
-
+    /* promotion method  */
     promotion ({clientName, orderNumber, price, discount, menu } : IOrdersCreate ) {
 
         const order = new Order();
 
         let response;
         menu.forEach((menuItem) => {
+
+            /* calls promotion methods - light, a lot of meat, a lot of cheese */
             response = this.promotionLotOfCheese(menuItem, price , discount)
             response = this.promotionLotOfMeat(menuItem, response.order.price , response.order.discount)
             response = this.promotionLight(menuItem, response.order.price , response.order.discount)
@@ -52,6 +56,7 @@ class PromotionsController {
         }
     }
 
+    /* 'a lot of meat' method */
     promotionLotOfMeat (menu: Menu, priceTotalOrder: number, discountTotalOrder: number) {
 
         const promotionEnum = new PromotionEnum()
@@ -91,6 +96,7 @@ class PromotionsController {
         }
     }
 
+    /* light method */
     promotionLight (menu: Menu, priceTotalOrder: number, discountTotalOrder: number) {
 
         const promotionEnum = new PromotionEnum()
@@ -127,7 +133,7 @@ class PromotionsController {
         }
     }
 
-
+    /* 'too much cheese' method */
     promotionLotOfCheese (menu: Menu, priceTotalOrder: number, discountTotalOrder: number) {
 
         const promotionEnum = new PromotionEnum()
